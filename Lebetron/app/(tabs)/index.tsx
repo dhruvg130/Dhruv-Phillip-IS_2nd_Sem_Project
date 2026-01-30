@@ -9,11 +9,14 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
-import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/hooks/auth-context';
+import { supabase } from '../../lib/supabase'; // ✅ use relative if @/ is red
+import { useAuth } from '../../hooks/auth-context';
 
 export default function HomeScreen() {
   const { session, loading: authLoading } = useAuth();
+  const loggedIn = !!session;
+
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,38 +38,98 @@ export default function HomeScreen() {
     setLoading(false);
   };
 
+  const handleSignup = async () => {
+    setMsg('');
+    setLoading(true);
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+    });
+
+    if (error) {
+      setMsg(error.message);
+      setLoading(false);
+      return;
+    }
+
+    // If email confirmations are ON, user may need to confirm before login works
+    if (!data.session) {
+      setMsg('Check your email to confirm your account, then log in.');
+      setMode('login');
+      setLoading(false);
+      return;
+    }
+
+    // Optional: create a profile row right away (only if you created profiles table + RLS)
+    const userId = data.session.user.id;
+    await supabase.from('profiles').upsert({
+      id: userId,
+      email: data.session.user.email,
+    });
+
+    setLoading(false);
+  };
+
   const handleForgotPassword = async () => {
     setMsg('');
-    if (!email.trim()) {
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
       setMsg('Enter your email first.');
       return;
     }
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim());
+    const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail);
     if (error) setMsg(error.message);
     else setMsg('Check your email for the reset link.');
   };
 
-  const loggedIn = !!session;
-
   return (
     <View style={styles.page}>
-      {/* Your real home content */}
+      {/* Your real home content behind the modal */}
       <Text style={styles.homeTitle}>Home</Text>
       <Text style={styles.homeText}>Welcome to your front page 👋</Text>
 
-      {/* Force-login modal overlay */}
+      {/* Forced auth modal */}
       <Modal
         visible={!loggedIn}
         transparent
         animationType="fade"
         statusBarTranslucent
-        onRequestClose={() => {}} // Android back button does nothing
+        onRequestClose={() => {}}
       >
-        {/* Full-screen dim background. Pressable used so taps don't close modal */}
         <Pressable style={styles.backdrop} onPress={() => {}}>
           <View style={styles.card}>
-            <Text style={styles.title}>Log In</Text>
+            <Text style={styles.title}>
+              {mode === 'login' ? 'Log In' : 'Create Account'}
+            </Text>
+
+            {/* Toggle */}
+            <View style={styles.toggleRow}>
+              <TouchableOpacity
+                style={[styles.toggleBtn, mode === 'login' && styles.toggleBtnActive]}
+                onPress={() => {
+                  setMode('login');
+                  setMsg('');
+                }}
+              >
+                <Text style={[styles.toggleText, mode === 'login' && styles.toggleTextActive]}>
+                  Log In
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.toggleBtn, mode === 'signup' && styles.toggleBtnActive]}
+                onPress={() => {
+                  setMode('signup');
+                  setMsg('');
+                }}
+              >
+                <Text style={[styles.toggleText, mode === 'signup' && styles.toggleTextActive]}>
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
 
             {authLoading ? (
               <View style={{ paddingVertical: 16 }}>
@@ -102,16 +165,30 @@ export default function HomeScreen() {
                 {!!msg && <Text style={styles.msg}>{msg}</Text>}
 
                 <TouchableOpacity
-                  style={[styles.loginBtn, loading && { opacity: 0.7 }]}
-                  onPress={handleLogin}
+                  style={[styles.primaryBtn, loading && { opacity: 0.7 }]}
+                  onPress={mode === 'login' ? handleLogin : handleSignup}
                   disabled={loading}
                 >
-                  {loading ? <ActivityIndicator color="white" /> : <Text style={styles.loginText}>Log In</Text>}
+                  {loading ? (
+                    <ActivityIndicator color="white" />
+                  ) : (
+                    <Text style={styles.primaryText}>
+                      {mode === 'login' ? 'Log In' : 'Create Account'}
+                    </Text>
+                  )}
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleForgotPassword}>
-                  <Text style={styles.forgot}>Forgot password?</Text>
-                </TouchableOpacity>
+                {mode === 'login' && (
+                  <TouchableOpacity onPress={handleForgotPassword}>
+                    <Text style={styles.forgot}>Forgot password?</Text>
+                  </TouchableOpacity>
+                )}
+
+                {mode === 'signup' && (
+                  <Text style={styles.smallNote}>
+                    By signing up, you may need to confirm your email depending on Supabase settings.
+                  </Text>
+                )}
               </>
             )}
           </View>
@@ -120,6 +197,7 @@ export default function HomeScreen() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   page: { flex: 1, padding: 16, backgroundColor: '#0b1220' },

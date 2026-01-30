@@ -216,6 +216,26 @@ const styles = StyleSheet.create({
     padding: 18,
   },
   title: { color: 'white', fontSize: 22, fontWeight: '700', marginBottom: 12, textAlign: 'center' },
+
+  toggleRow: {
+    flexDirection: 'row',
+    backgroundColor: '#0b152b',
+    borderRadius: 12,
+    padding: 4,
+    marginBottom: 14,
+  },
+  toggleBtn: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  toggleBtnActive: {
+    backgroundColor: '#1d4ed8',
+  },
+  toggleText: { color: '#94a3b8', fontWeight: '700' },
+  toggleTextActive: { color: 'white' },
+
   subtle: { color: '#94a3b8', textAlign: 'center', marginTop: 8 },
 
   input: {
@@ -228,17 +248,19 @@ const styles = StyleSheet.create({
   },
   passwordRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
   showBtn: { paddingHorizontal: 10, paddingVertical: 10 },
-  showText: { color: '#60a5fa', fontWeight: '600' },
+  showText: { color: '#60a5fa', fontWeight: '700' },
 
   msg: { color: '#fca5a5', marginBottom: 10, textAlign: 'center' },
 
-  loginBtn: {
+  primaryBtn: {
     backgroundColor: '#2563eb',
     borderRadius: 10,
     paddingVertical: 12,
     alignItems: 'center',
   },
-  loginText: { color: 'white', fontWeight: '700' },
+  primaryText: { color: 'white', fontWeight: '800' },
 
   forgot: { color: '#94a3b8', marginTop: 12, textAlign: 'center' },
-});
+  smallNote: { color: '#94a3b8', marginTop: 10, fontSize: 12, textAlign: 'center' },
+}); 
+

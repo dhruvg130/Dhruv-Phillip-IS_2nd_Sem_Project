@@ -225,5 +225,73 @@ export default function FavoritesScreen() {
 }
 
 const styles = StyleSheet.create({
-  
+  container: { flex: 1, padding: 16, gap: 10 },
+  title: { marginBottom: 2 },
+
+  search: {
+    backgroundColor: '#0b152b',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    color: 'white',
+    borderWidth: 1,
+    borderColor: '#22304a',
+  },
+
+  msg: { color: '#fca5a5', marginTop: 2 },
+
+  resultsBox: {
+    backgroundColor: '#111c33',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#22304a',
+    overflow: 'hidden',
+  },
+  resultRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#22304a',
+  },
+  symbol: { fontWeight: '800', width: 70 },
+  desc: { color: '#94a3b8', flex: 1 },
+  add: { color: '#60a5fa', fontSize: 18, fontWeight: '900' },
+
+  sectionHeader: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sectionTitle: { fontWeight: '800' },
+  refresh: { color: '#60a5fa', fontWeight: '800' },
+
+  favRow: {
+    marginTop: 10,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '#111c33',
+    borderWidth: 1,
+    borderColor: '#22304a',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  favTicker: { fontWeight: '900', fontSize: 16 },
+  price: { fontWeight: '800' },
+  change: { color: '#94a3b8', width: 70, textAlign: 'right' },
+
+  removeBtn: {
+    marginLeft: 8,
+    backgroundColor: '#1e293b',
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  removeText: { color: '#f87171', fontWeight: '800' },
 });
+

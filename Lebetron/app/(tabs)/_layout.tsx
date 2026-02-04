@@ -30,9 +30,9 @@ export default function TabLayout() {
 
       {/* Favorites (user’s saved tickers) */}
       <Tabs.Screen
-        name="favorites"
+        name="Explore"
         options={{
-          title: 'Favorites',
+          title: 'Explore',
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="star.fill" color={color} />
           ),

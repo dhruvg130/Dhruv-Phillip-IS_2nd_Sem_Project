@@ -79,17 +79,34 @@ export default function HomeScreen() {
       return;
     }
 
+  
+
     const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail);
     if (error) setMsg(error.message);
     else setMsg('Check your email for the reset link.');
   };
 
+  const handleLogout = async () => {
+      setMsg('');
+      const { error } = await supabase.auth.signOut();
+      if (error) setMsg(error.message);
+    };
+    
   return (
     <View style={styles.page}>
       {/* Your real home content behind the modal */}
       <Text style={styles.homeTitle}>Home</Text>
       <Text style={styles.homeText}>Welcome to your front page 👋</Text>
 
+      {loggedIn && (
+        <View style={{ marginTop: 14 }}>
+          <Text style={styles.loggedInAs}>Logged in as {session?.user?.email}</Text>
+
+          <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Log out</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {/* Forced auth modal */}
       <Modal
         visible={!loggedIn}
@@ -177,7 +194,6 @@ export default function HomeScreen() {
                     </Text>
                   )}
                 </TouchableOpacity>
-
                 {mode === 'login' && (
                   <TouchableOpacity onPress={handleForgotPassword}>
                     <Text style={styles.forgot}>Forgot password?</Text>
@@ -262,5 +278,24 @@ const styles = StyleSheet.create({
 
   forgot: { color: '#94a3b8', marginTop: 12, textAlign: 'center' },
   smallNote: { color: '#94a3b8', marginTop: 10, fontSize: 12, textAlign: 'center' },
+  loggedInAs: {
+  color: '#94a3b8',
+  marginBottom: 10,
+},
+
+logoutBtn: {
+  alignSelf: 'flex-start',
+  backgroundColor: '#1e293b',
+  paddingVertical: 10,
+  paddingHorizontal: 14,
+  borderRadius: 10,
+  borderWidth: 1,
+  borderColor: '#334155',
+},
+
+logoutText: {
+  color: '#f87171',
+  fontWeight: '800',
+},
 }); 
 

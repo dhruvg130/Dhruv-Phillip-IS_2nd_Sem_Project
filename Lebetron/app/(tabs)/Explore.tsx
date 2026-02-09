@@ -181,7 +181,7 @@ export default function FavoritesScreen() {
       <ThemedView style={styles.sectionHeader}>
         <ThemedText style={styles.sectionTitle}>Your favorites</ThemedText>
         <TouchableOpacity onPress={loadFavorites}>
-          <ThemedText style={styles.refresh}>Refresh</ThemedText>
+          <ThemedText style={styles.refresh}> Refresh</ThemedText>
         </TouchableOpacity>
       </ThemedView>
 

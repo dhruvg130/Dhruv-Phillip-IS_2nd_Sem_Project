@@ -150,7 +150,7 @@ export default function FavoritesScreen() {
       <TextInput
         value={query}
         onChangeText={setQuery}
-        placeholder="Search stocks (AAPL, TSLA, Apple...)"
+        placeholder="Search stocks (AAPL, TSLA, NVDA...)"
         placeholderTextColor="#94a3b8"
         style={styles.search}
         autoCapitalize="characters"

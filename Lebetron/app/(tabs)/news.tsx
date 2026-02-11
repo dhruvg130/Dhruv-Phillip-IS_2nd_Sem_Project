@@ -227,5 +227,48 @@ export default function NewsScreen() {
 }
 
 const styles = StyleSheet.create({
-  
+  container: { flex: 1, padding: 16 },
+  headerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  refresh: { color: '#60a5fa', fontWeight: '800' },
+  msg: { color: '#fca5a5', marginTop: 8 },
+
+  filterPill: {
+    backgroundColor: '#0b152b',
+    borderWidth: 1,
+    borderColor: '#22304a',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    marginRight: 10,
+  },
+  filterPillActive: {
+    backgroundColor: '#1d4ed8',
+    borderColor: '#1d4ed8',
+  },
+  filterText: { fontWeight: '900', color: '#94a3b8' },
+  filterTextActive: { color: 'white' },
+
+  card: {
+    backgroundColor: '#111c33',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#22304a',
+    padding: 14,
+    marginTop: 10,
+  },
+  cardTopRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 6 },
+  tickerPill: {
+    backgroundColor: '#0b152b',
+    borderWidth: 1,
+    borderColor: '#22304a',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    fontWeight: '900',
+  },
+  source: { color: '#94a3b8', fontSize: 12 },
+
+  headline: { fontSize: 16, fontWeight: '900' },
+  meta: { color: '#94a3b8', marginTop: 6, fontSize: 12 },
+  summary: { color: '#cbd5e1', marginTop: 8, fontSize: 13, lineHeight: 18 },
 });
